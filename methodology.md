@@ -190,7 +190,7 @@ households, not only to owners.
 
 ## Reproducing the receipt
 
-The companion spreadsheet, `data/new-bedford-fy2025-receipt-data.xlsx`, holds
+The companion spreadsheet, `new-bedford-fy2025-receipt-data.xlsx`, holds
 every figure with its source on the Data sheet and reproduces the receipt's
 calculations as live, visible formulas on the Receipt sheet. Change the
 assessed value and the full receipt recalculates. The New Bedford FY2025 ACFR

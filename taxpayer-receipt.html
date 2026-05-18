@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Bedford Taxpayer Receipt — FY2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     NEW BEDFORD TAXPAYER RECEIPT — FY2025
+     One static file, naturally responsive. GitHub Pages ready.
+
+     SCOPE: the local taxes a household pays the city = property
+     tax (personalized by assessed value) + motor vehicle excise
+     (citywide household average). Both flow to the general fund,
+     so the receipt spreads the combined total across the ACFR's
+     functional categories in proportion to each function's net
+     local cost.
+
+     DATA: all figures are audited or reconciled FY2025 actuals.
+     Citywide totals and functional net costs come from the City's
+     FY2025 ACFR (Statement of Activities, p.24, and the pension
+     and OPEB notes); charter tuition from the Massachusetts DESE
+     FY2025 reconciliation; benefit appropriations from the FY2025
+     Adopted Budget. The residential share of the property tax levy
+     is verified from the ACFR's assessed-value-by-class table; the
+     motor vehicle excise is shown as a citywide average — total
+     excise over Census household count.
+     ============================================================ */
+
+  :root{
+    --paper:#f4f1e8;
+    --paper-panel:#ece6d6;
+    --ink:#211e1a;
+    --ink-soft:#615a4e;
+    --ink-faint:#8b8273;
+    --hair:#ddd5c0;
+    --accent:#2a5d57;
+    --accent-deep:#1f4742;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  body{
+    background:radial-gradient(ellipse at 50% 0%, #423c32 0%, #2a2620 75%);
+    min-height:100vh;
+    font-family:'Public Sans',sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    padding:clamp(18px,4vw,48px) clamp(12px,3.5vw,32px) 56px;
+    display:flex;flex-direction:column;align-items:center;
+  }
+
+  /* ---------------- the receipt card ---------------- */
+  .receipt{
+    width:100%;max-width:700px;
+    background:var(--paper);
+    border-radius:12px;
+    padding:clamp(24px,5vw,52px) clamp(20px,5vw,54px) clamp(26px,4vw,40px);
+    box-shadow:0 24px 60px -18px rgba(0,0,0,.55), 0 4px 14px rgba(0,0,0,.3);
+    opacity:0;transform:translateY(10px);
+  }
+  body.loaded .receipt{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease;}
+
+  /* ---------------- masthead ---------------- */
+  .masthead{border-bottom:2.5px solid var(--ink);padding-bottom:14px;}
+  .masthead .kicker{
+    font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+    font-weight:700;color:var(--accent);margin-bottom:7px;
+  }
+  .masthead h1{
+    font-family:'Newsreader',serif;font-weight:500;line-height:1.07;
+    letter-spacing:-.01em;font-size:clamp(26px,6.6vw,39px);
+  }
+  .masthead .sub{margin-top:7px;font-size:12.5px;color:var(--ink-soft);font-weight:500;}
+  .masthead .sub em{font-style:italic;font-family:'Newsreader',serif;}
+
+  /* ---------------- input ---------------- */
+  .input-card{
+    background:var(--paper-panel);border:1px solid var(--hair);
+    border-radius:8px;padding:15px 17px;margin-top:18px;
+  }
+  .input-card label{
+    display:block;font-size:12px;font-weight:600;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--ink-soft);margin-bottom:9px;
+  }
+  .input-wrap{display:flex;align-items:center;}
+  .input-wrap .dollar{
+    font-family:'IBM Plex Mono',monospace;font-size:22px;color:var(--ink-faint);padding-right:4px;
+  }
+  .input-wrap input{
+    font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:500;color:var(--ink);
+    background:none;border:none;width:100%;border-bottom:2px solid var(--ink);padding:2px 0 4px;
+  }
+  .input-wrap input:focus{outline:none;border-bottom-color:var(--accent);}
+  .input-note{
+    margin-top:9px;font-size:11.5px;color:var(--ink-faint);
+    display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;
+  }
+  .input-note button{
+    background:none;border:none;color:var(--accent);cursor:pointer;
+    font-family:inherit;font-size:11.5px;font-weight:600;
+    text-decoration:underline;text-underline-offset:2px;padding:0;
+  }
+
+  /* ---------------- headline + composition ---------------- */
+  .headline{
+    margin-top:22px;padding:18px 0 6px;border-top:1px solid var(--hair);
+    display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  }
+  .headline .h-label{font-size:13px;color:var(--ink-soft);font-weight:500;line-height:1.35;}
+  .headline .h-fig{
+    font-family:'Newsreader',serif;font-weight:500;letter-spacing:-.02em;
+    line-height:1;white-space:nowrap;font-size:clamp(40px,9vw,56px);
+  }
+  .composition{border-bottom:1px solid var(--hair);padding-bottom:6px;}
+  .comp-row{
+    display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+    padding:10px 0;border-top:1px dotted var(--hair);
+  }
+  .comp-name{font-size:13.5px;font-weight:600;}
+  .comp-sub{display:block;font-size:11px;color:var(--ink-faint);margin-top:2px;}
+  .comp-fig{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:500;white-space:nowrap;}
+  .comp-note{
+    margin-top:11px;font-size:11.5px;line-height:1.6;color:var(--ink-faint);
+  }
+
+  /* ---------------- section scaffolding ---------------- */
+  .section{padding-top:clamp(20px,4vw,28px);}
+  .section-label{display:flex;align-items:baseline;gap:10px;margin-bottom:13px;}
+  .section-label .num{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;
+    color:var(--accent);border:1px solid var(--accent);border-radius:50%;
+    width:21px;height:21px;display:flex;align-items:center;justify-content:center;flex:none;
+  }
+  .section-label h2{
+    font-family:'Newsreader',serif;font-weight:500;line-height:1.15;
+    font-size:clamp(19px,3.6vw,22px);
+  }
+
+  /* ---------------- funding panel ---------------- */
+  .funding-caption{margin-top:13px;font-size:13.5px;line-height:1.55;color:var(--ink);}
+  .funding-caption strong{font-weight:700;}
+  .funding-caption .lev{color:var(--accent-deep);font-weight:700;}
+  /* ---------------- funding breakout (per residential $1) ---------------- */
+  .breakout{margin-top:15px;}
+  .bk-row{
+    display:flex;align-items:center;gap:10px;
+    padding:9px 2px;border-top:1px solid var(--hair);
+  }
+  .bk-row .bk-sw{width:10px;height:10px;border-radius:2px;flex:none;}
+  .bk-row .bk-name{flex:1;font-size:12.5px;font-weight:500;line-height:1.35;}
+  .bk-row .bk-tot{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+    color:var(--ink-faint);width:64px;text-align:right;flex:none;
+  }
+  .bk-row .bk-per{
+    font-family:'IBM Plex Mono',monospace;font-size:14.5px;font-weight:600;
+    width:52px;text-align:right;flex:none;white-space:nowrap;
+  }
+  .bk-row.bk-base{background:rgba(42,93,87,.07);}
+  .bk-row.bk-base .bk-name{font-weight:700;}
+  .bk-row.bk-total{border-top:2px solid var(--ink);}
+  .bk-row.bk-total .bk-name{font-family:'Newsreader',serif;font-size:14.5px;font-weight:600;}
+  .bk-row.bk-total .bk-per{color:var(--accent-deep);}
+
+  /* ---------------- ledger ---------------- */
+  .ledger{margin-top:16px;}
+  .ledger-head{
+    display:flex;align-items:flex-end;font-size:10px;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-faint);
+    border-bottom:2px solid var(--ink);padding-bottom:7px;
+  }
+  .ledger-head .lh-fn{flex:1;}
+  .ledger-head .lh-share{width:68px;text-align:right;line-height:1.25;}
+  .ledger-head .lh-out{width:96px;text-align:right;line-height:1.25;}
+  .ledger-head .lh-amt{width:84px;text-align:right;}
+  .ledger-row{
+    display:flex;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--hair);
+  }
+  .ledger-row .lr-fn{
+    flex:1;display:flex;align-items:flex-start;gap:9px;
+    font-size:13.5px;font-weight:500;line-height:1.3;padding-right:8px;
+  }
+  .ledger-row .swatch{width:11px;height:11px;border-radius:2px;flex:none;margin-top:3px;}
+  .lr-fn-text{display:flex;flex-direction:column;}
+  .lr-fn-sub{display:none;font-size:11px;font-weight:400;color:var(--ink-faint);margin-top:3px;}
+  .ledger-row.lr-named .lr-fn-sub{display:block;}
+  .ledger-row .lr-share,.ledger-row .lr-out,.ledger-row .lr-amt{
+    font-family:'IBM Plex Mono',monospace;line-height:1.3;text-align:right;
+  }
+  .ledger-row .lr-share{width:68px;font-size:12.5px;color:var(--ink-soft);}
+  .ledger-row .lr-out{width:96px;font-size:12.5px;color:var(--ink-faint);}
+  .ledger-row .lr-amt{width:84px;font-size:14px;font-weight:500;}
+  .ledger-total{display:flex;align-items:baseline;padding:13px 0 2px;border-top:2px solid var(--ink);}
+  .ledger-total .lt-fn{flex:1;font-family:'Newsreader',serif;font-size:16px;font-weight:600;}
+  .ledger-total .lt-amt{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:500;}
+  .ledger-note{margin-top:13px;font-size:11.5px;line-height:1.55;color:var(--ink-faint);}
+
+  /* ---------------- cross-cutting note (benefits) ---------------- */
+  .crosscut{
+    margin-top:17px;padding:14px 16px;
+    background:var(--paper-panel);border:1px solid var(--hair);border-radius:8px;
+  }
+  .crosscut .cc-label{
+    font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--accent);display:block;margin-bottom:6px;
+  }
+  .crosscut p{font-size:12.5px;line-height:1.62;color:var(--ink);}
+  .crosscut strong{font-weight:700;}
+
+  /* ---------------- footer / credit ---------------- */
+  .receipt-foot{margin-top:24px;padding-top:15px;border-top:1.5px solid var(--ink);}
+  .credit{font-size:12px;line-height:1.55;color:var(--ink-soft);font-weight:500;}
+  .source{margin-top:9px;font-size:11px;line-height:1.55;color:var(--ink-faint);}
+  .source a{color:var(--accent);}
+
+  /* ---------------- responsive safety net ---------------- */
+  @media (max-width:600px){
+    .ledger-head .lh-out,.ledger-row .lr-out{display:none;}
+    .lr-fn-sub{display:block;}
+    .headline{flex-direction:column;align-items:flex-start;gap:5px;}
+  }
+</style>
+</head>
+<body>
+
+  <article class="receipt" id="receipt">
+
+    <!-- masthead — author-led, not a city publication -->
+    <header class="masthead">
+      <div class="kicker">An Independent Taxpayer Receipt</div>
+      <h1>Where did your local tax payments go in FY2025?</h1>
+      <div class="sub">New Bedford, Massachusetts &nbsp;&middot;&nbsp; Fiscal Year 2025 <em>(audited actual results)</em></div>
+    </header>
+
+    <!-- input — personalizes the property-tax portion only -->
+    <div class="input-card">
+      <label for="value">Enter your home&rsquo;s assessed value</label>
+      <div class="input-wrap">
+        <span class="dollar">$</span>
+        <input type="text" id="value" inputmode="numeric" value="393,323" aria-label="Assessed value in dollars">
+      </div>
+      <div class="input-note">
+        <span>City-average single-family value shown &mdash; this sets the property-tax portion.</span>
+        <button id="reset">Reset to average</button>
+      </div>
+    </div>
+
+    <!-- headline = combined local taxes -->
+    <div class="headline">
+      <div class="h-label">Your estimated annual local taxes</div>
+      <div class="h-fig" id="bill">$4,683</div>
+    </div>
+
+    <!-- composition: the two taxes that make up the total -->
+    <div class="composition">
+      <div class="comp-row">
+        <div>
+          <span class="comp-name">Property tax</span>
+          <span class="comp-sub">Your assessed value &times; $11.31 per $1,000 &mdash; the FY2025 residential tax rate</span>
+        </div>
+        <span class="comp-fig" id="compProp">$4,448</span>
+      </div>
+      <div class="comp-row">
+        <div>
+          <span class="comp-name">Motor vehicle excise</span>
+          <span class="comp-sub">FY2025 citywide household average</span>
+        </div>
+        <span class="comp-fig" id="compExcise">$235</span>
+      </div>
+      <p class="comp-note">
+        Homeowners aren&rsquo;t the only property taxpayers. Commercial, industrial, and personal
+        property carry about <strong>28%</strong> of the City&rsquo;s tax levy, taxed at $22.85 per
+        $1,000 &mdash; just over twice the $11.31 residential rate. Rental housing is taxed at the
+        residential rate, so renters carry a large share of the tax bill through their rent.
+      </p>
+    </div>
+
+    <!-- SECTION 1 — where the city's money comes from -->
+    <section class="section">
+      <div class="section-label">
+        <span class="num">1</span>
+        <h2>Where the city&rsquo;s money came from</h2>
+      </div>
+      <p class="funding-caption" id="fundingCaption"></p>
+      <div class="breakout" id="fundingBreakout"></div>
+    </section>
+
+    <!-- SECTION 2 — your tax dollars, by ACFR function -->
+    <section class="section">
+      <div class="section-label">
+        <span class="num">2</span>
+        <h2>What your local tax dollars funded</h2>
+      </div>
+      <div class="ledger" id="ledger"></div>
+      <p class="ledger-note">
+        &ldquo;Outside funding&rdquo; is the share of each function&rsquo;s total cost met by state aid,
+        federal grants, and other non-local sources &mdash; for charter school tuition, specifically the
+        state&rsquo;s charter reimbursement, which covers about a fifth of the assessment. Charter is shown
+        separately from New Bedford Public Schools. Public works reads unusually high in FY2025 because of
+        roughly $51M in one-time capital grants &mdash; a figure that varies sharply year to year.
+      </p>
+
+      <!-- cross-cutting note: employee benefits are inside every line above -->
+      <div class="crosscut">
+        <span class="cc-label">Built into every line above</span>
+        <p>
+          Pensions and health insurance aren&rsquo;t billed separately &mdash; they sit inside each
+          function&rsquo;s cost. In FY2025 the City put <strong>$40.7M</strong> toward employee
+          pensions and about <strong>$36.6M</strong> toward health and related insurance: close to
+          <strong>$77M</strong> together, near a tenth of all City spending. The retiree-health share
+          is almost entirely unfunded &mdash; the City reports roughly <strong>$510M</strong> in
+          long-term retiree-health (OPEB) obligations, with under 2% set aside.
+        </p>
+      </div>
+    </section>
+
+    <!-- footer — credit, non-endorsement, sources -->
+    <footer class="receipt-foot">
+      <p class="credit">
+        An independent taxpayer receipt prepared by Mike Goodman, with analytical and development
+        support from Claude (Anthropic), published at
+        <a href="https://commonwealthnotes.substack.com">Notes on the Commonwealth</a>. Not a
+        publication of the City of New Bedford, and not reviewed or endorsed by the City.
+      </p>
+      <p class="source">
+        Sources: City of New Bedford FY2025 Annual Comprehensive Financial Report &mdash; Statement of
+        Activities (p.&nbsp;24), the pension and OPEB notes, and the assessed-value-by-class table
+        (p.&nbsp;144); Massachusetts DESE FY2025 charter tuition reconciliation; the City&rsquo;s
+        FY2025 Adopted Budget; the FY2025 Tax Rate Recapitulation; and the U.S. Census Bureau
+        (2020&ndash;2024 American Community Survey). All financial figures are audited or reconciled actuals.
+      </p>
+      <p class="source">
+        The full methodology &mdash; including the function-to-department crosswalk and the charter
+        tuition reconciliation &mdash; is posted alongside this receipt at
+        <a href="https://commonwealthnotes.substack.com">Notes on the Commonwealth</a>.
+      </p>
+    </footer>
+
+  </article>
+
+<script>
+/* ============================================================
+   DATA — FY2025 audited / reconciled actuals.
+
+   Citywide totals and functional net costs: City of New Bedford
+   FY2025 ACFR, Statement of Activities (p.24). Charter tuition:
+   Massachusetts DESE FY2025 charter tuition reconciliation.
+   Benefit appropriations: FY2025 Adopted Budget. OPEB / pension:
+   ACFR notes.
+
+   The ledger spreads a household's combined local taxes across
+   the ACFR's governmental functions in proportion to each
+   function's NET LOCAL COST (gross expense less program revenue
+   and restricted aid). Charter tuition is split out of Education,
+   with the state's charter reimbursement attributed to it as an
+   offset rather than left in unrestricted aid.
+
+   ALL INPUTS ARE NOW SOURCED. The motor vehicle excise figure is
+   a citywide average — total excise divided by Census households
+   — so it spreads business and boat excise across households; it
+   is labeled as a citywide average rather than a precise per-auto
+   figure. RESID_SHARE, the residential share of the levy, is
+   verified from the ACFR assessed-value-by-class table (p.144).
+   ============================================================ */
+const D = {
+  gross:        729655324,   /* ACFR p.24 — total governmental expenses                 */
+  fundingTotal: 731935201,   /* FY2025 governmental revenue & net transfers (sum below) */
+  ledgerTotal:  211903120,   /* net local cost across all 9 functions (incl. CED)       */
+  posTotal:     212062221,   /* 8 functions with positive net local cost — share base   */
+  avgValue:     393323,      /* FY2025 average single-family assessed value             */
+  avgBill:      4448.48      /* property tax on the average value at $11.31 / $1,000    */
+};
+const EXCISE_CITY = 9837910;                 /* ACFR p.24 — motor vehicle & other excise */
+const HOUSEHOLDS  = 42271;                   /* New Bedford households — U.S. Census Bureau, 2020-2024 ACS 5-yr */
+const EXCISE_AVG  = EXCISE_CITY / HOUSEHOLDS; /* citywide motor vehicle & boat excise per household (~$233)      */
+const RATE        = D.avgBill / D.avgValue;   /* effective residential rate, $11.31/$1k   */
+
+/* property tax split — RESID_SHARE verified from the FY2025 ACFR
+   assessed-value-by-class table (p.144): residential assessed value
+   of $9.819B out of $11.753B total, taxed at $11.31 against the
+   $22.85 CIP rate, yields a 71.53% residential share of the levy */
+const PROP_TAX      = 155079039;                            /* ACFR p.24 — property tax revenue, net abatements */
+const RESID_SHARE   = 0.7153;                               /* residential share of the levy — ACFR p.144, verified */
+const RESID_PROPTAX = Math.round(PROP_TAX * RESID_SHARE);   /* ~110.93M */
+const CIP_PROPTAX   = PROP_TAX - RESID_PROPTAX;             /* ~44.15M  */
+
+/* funding sources — ranked largest to smallest; the residential entry
+   (base:true) is the $1.00 anchor for the per-dollar breakout */
+const SEGS = [
+  {name:'State &amp; federal grants and charges for service', amt:516934715, color:'#c8c0a6'},
+  {name:'Residential property tax', amt:RESID_PROPTAX, color:'#3a4a5c', base:true},
+  {name:'Commercial, industrial &amp; personal property tax', amt:CIP_PROPTAX, color:'#5b6b5a'},
+  {name:'Unrestricted state aid', amt:22033642, color:'#b3a98e'},
+  {name:'Other local revenue', amt:20066710, color:'#968c74'},
+  {name:'Motor vehicle &amp; other excise', amt:9837910, color:'#7a7363'},
+  {name:'Net transfers from enterprise funds', amt:7983185, color:'#d8cfb8'}
+];
+
+/* governmental functions — net local cost (gross less program revenue & restricted aid) */
+const FUNCS = [
+  {name:'Public safety',           net:58399969, outside:0.299, color:'#3a4a5c'},
+  {name:'Education',               full:'Education \u2014 New Bedford Public Schools', net:51811767, outside:0.878, color:'#4f6f4a'},
+  {name:'General government',      net:42437791, outside:0.191, color:'#97564a'},
+  {name:'Charter school',          full:'Charter school tuition assessment', net:24367836, outside:0.205, outsideLabel:'the state charter reimbursement', color:'#b06a3e'},
+  {name:'Public works',            net:17413997, outside:0.828, color:'#5b7a8c'},
+  {name:'Interest',                full:'Interest on long-term debt', net:7917990, outside:0.000, color:'#6d6478'},
+  {name:'Culture &amp; recreation', net:6523963, outside:0.257, color:'#c2992f'},
+  {name:'Health &amp; human services', net:3188908, outside:0.705, color:'#6f8f86'},
+  {name:'Community &amp; economic development', full:'Community &amp; economic development', net:0, outside:1, grantFunded:true, color:'#8a8276'}
+];
+
+/* ---------------- helpers ---------------- */
+const $    = id => document.getElementById(id);
+const usd  = n => '$' + Math.round(n).toLocaleString('en-US');
+const usdM = n => '$' + (n/1e6).toFixed(1) + 'M';
+const pct  = n => Math.round(n*100) + '%';
+const pct1 = n => (n*100).toFixed(1) + '%';
+
+function animateNumber(el, to){
+  const from = Number(el.dataset.val || to) || 0;
+  el.dataset.val = to;
+  const start = performance.now(), dur = 460;
+  (function step(t){
+    const k = Math.min(1,(t-start)/dur);
+    el.textContent = usd(from + (to-from)*(1-Math.pow(1-k,3)));
+    if(k<1) requestAnimationFrame(step);
+  })(performance.now());
+}
+
+/* ---------------- funding panel ---------------- */
+function renderFunding(){
+  const resid    = SEGS.find(s=>s.base).amt;          /* residential property tax */
+  const otherPer = (D.fundingTotal - resid) / resid;  /* outside money per $1 of it */
+  $('fundingCaption').innerHTML =
+    'New Bedford took in about <strong>'+usdM(D.fundingTotal)+'</strong> in FY2025 and spent '+
+    '<strong>'+usdM(D.gross)+'</strong> &mdash; a small operating surplus. Residential property '+
+    'tax supplied <strong>'+usdM(resid)+'</strong> of revenue. For every residential tax dollar, '+
+    '<span class="lev">another $'+otherPer.toFixed(2)+'</span> came from other sources &mdash; '+
+    'commercial property, fees, state aid, and federal grants among them:';
+
+  const bk = $('fundingBreakout'); bk.innerHTML = '';
+  SEGS.forEach(s=>{
+    const per = s.amt / resid;
+    const row = document.createElement('div');
+    row.className = 'bk-row' + (s.base ? ' bk-base' : '');
+    row.innerHTML =
+      '<span class="bk-sw" style="background:'+s.color+'"></span>'+
+      '<span class="bk-name">'+s.name+(s.base?' &mdash; your tax dollar':'')+'</span>'+
+      '<span class="bk-tot">'+usdM(s.amt)+'</span>'+
+      '<span class="bk-per">$'+per.toFixed(2)+'</span>';
+    bk.appendChild(row);
+  });
+  const tot = document.createElement('div'); tot.className = 'bk-row bk-total';
+  tot.innerHTML =
+    '<span class="bk-sw" style="background:transparent"></span>'+
+    '<span class="bk-name">Total City revenue per $1 of residential property tax</span>'+
+    '<span class="bk-tot">'+usdM(D.fundingTotal)+'</span>'+
+    '<span class="bk-per">$'+(D.fundingTotal/resid).toFixed(2)+'</span>';
+  bk.appendChild(tot);
+}
+
+/* ---------------- receipt: itemized ledger ---------------- */
+function renderReceipt(total){
+  const led = $('ledger'); led.innerHTML = '';
+  const head = document.createElement('div');
+  head.className = 'ledger-head';
+  head.innerHTML = '<span class="lh-fn">City function</span>'+
+    '<span class="lh-share">Share of total</span>'+
+    '<span class="lh-out">Outside funding</span>'+
+    '<span class="lh-amt">Your share</span>';
+  led.appendChild(head);
+
+  FUNCS.forEach(f=>{
+    const share = f.net / D.posTotal;
+    const out   = f.grantFunded ? 'fully grant-funded'
+                : f.outsideLabel ? pct1(f.outside)+' covered by '+f.outsideLabel
+                : pct1(f.outside)+' outside-funded';
+    const outCol= f.grantFunded ? '100%' : pct1(f.outside);
+    const amt   = f.grantFunded ? '$0' : usd(total*share);
+    const row = document.createElement('div');
+    row.className = 'ledger-row' + (f.outsideLabel ? ' lr-named' : '');
+    row.innerHTML =
+      '<span class="lr-fn"><span class="swatch" style="background:'+f.color+'"></span>'+
+        '<span class="lr-fn-text">'+(f.full||f.name)+
+          '<span class="lr-fn-sub">'+out+'</span></span></span>'+
+      '<span class="lr-share">'+(f.grantFunded?'\u2014':pct(share))+'</span>'+
+      '<span class="lr-out">'+outCol+'</span>'+
+      '<span class="lr-amt">'+amt+'</span>';
+    led.appendChild(row);
+  });
+
+  const tot = document.createElement('div'); tot.className = 'ledger-total';
+  tot.innerHTML = '<span class="lt-fn">Your total local taxes</span>'+
+    '<span class="lt-amt">'+usd(total)+'</span>';
+  led.appendChild(tot);
+}
+
+/* ---------------- master render ---------------- */
+function render(){
+  const value   = Math.min(Number(String($('value').value).replace(/[^0-9.]/g,'')) || 0, 9000000);
+  const propTax = value * RATE;
+  const total   = propTax + EXCISE_AVG;
+  animateNumber($('bill'), total);
+  $('compProp').textContent   = usd(propTax);
+  $('compExcise').textContent = usd(EXCISE_AVG);
+  renderFunding();
+  renderReceipt(total);
+}
+
+/* ---------------- wiring ---------------- */
+$('value').addEventListener('input', render);
+$('value').addEventListener('blur', e=>{
+  const n = Number(String(e.target.value).replace(/[^0-9.]/g,'')) || 0;
+  e.target.value = n ? n.toLocaleString('en-US') : '';
+});
+$('reset').addEventListener('click', ()=>{
+  $('value').value = D.avgValue.toLocaleString('en-US'); render();
+});
+
+/* ---------------- init ---------------- */
+render();
+requestAnimationFrame(()=>document.body.classList.add('loaded'));
+</script>
+</body>
+</html>
