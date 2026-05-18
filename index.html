@@ -12,12 +12,12 @@
      NEW BEDFORD TAXPAYER RECEIPT — FY2025
      One static file, naturally responsive. GitHub Pages ready.
 
-     SCOPE: the local taxes a household pays the city = property
-     tax (personalized by assessed value) + motor vehicle excise
-     (citywide household average). Both flow to the general fund,
-     so the receipt spreads the combined total across the ACFR's
-     functional categories in proportion to each function's net
-     local cost.
+     SCOPE: residential property tax only, personalized by the
+     household's assessed value. The receipt spreads that property
+     tax across the ACFR's functional categories in proportion to
+     each function's net local cost. Motor vehicle excise and other
+     local revenue are NOT in the household figure; they appear in
+     Section 1 as city revenue sources.
 
      DATA: all figures are audited or reconciled FY2025 actuals.
      Citywide totals and functional net costs come from the City's
@@ -25,9 +25,9 @@
      and OPEB notes); charter tuition from the Massachusetts DESE
      FY2025 reconciliation; benefit appropriations from the FY2025
      Adopted Budget. The residential share of the property tax levy
-     is verified from the ACFR's assessed-value-by-class table; the
-     motor vehicle excise is shown as a citywide average — total
-     excise over Census household count.
+     is derived from the ACFR's assessed-value-by-class table and
+     the FY2025 class tax rates. The average single-family value is
+     a Massachusetts DOR figure.
      ============================================================ */
 
   :root{
@@ -75,6 +75,10 @@
   }
   .masthead .sub{margin-top:7px;font-size:12.5px;color:var(--ink-soft);font-weight:500;}
   .masthead .sub em{font-style:italic;font-family:'Newsreader',serif;}
+  .standfirst{
+    margin-top:14px;font-size:13px;line-height:1.6;color:var(--ink-soft);
+  }
+  .standfirst em{font-style:italic;}
 
   /* ---------------- input ---------------- */
   .input-card{
@@ -114,6 +118,7 @@
     font-family:'Newsreader',serif;font-weight:500;letter-spacing:-.02em;
     line-height:1;white-space:nowrap;font-size:clamp(40px,9vw,56px);
   }
+  .h-sub{font-size:11px;color:var(--ink-faint);line-height:1.5;margin-top:1px;}
   .composition{border-bottom:1px solid var(--hair);padding-bottom:6px;}
   .comp-row{
     display:flex;align-items:baseline;justify-content:space-between;gap:12px;
@@ -231,11 +236,18 @@
     <!-- masthead — author-led, not a city publication -->
     <header class="masthead">
       <div class="kicker">An Independent Taxpayer Receipt</div>
-      <h1>Where did your local tax payments go in FY2025?</h1>
+      <h1>Where did your property tax go in FY2025?</h1>
       <div class="sub">New Bedford, Massachusetts &nbsp;&middot;&nbsp; Fiscal Year 2025 <em>(audited actual results)</em></div>
     </header>
 
-    <!-- input — personalizes the property-tax portion only -->
+    <!-- standfirst — frames what the receipt does and doesn't claim -->
+    <p class="standfirst">
+      Your property tax doesn&rsquo;t pay for all of city government &mdash; far from it. This receipt
+      shows what it <em>does</em> pay for: how your tax is spread across city services, after state
+      aid, federal grants, and fees are subtracted from what each one costs.
+    </p>
+
+    <!-- input — assessed value personalizes the receipt -->
     <div class="input-card">
       <label for="value">Enter your home&rsquo;s assessed value</label>
       <div class="input-wrap">
@@ -243,33 +255,20 @@
         <input type="text" id="value" inputmode="numeric" value="393,323" aria-label="Assessed value in dollars">
       </div>
       <div class="input-note">
-        <span>City-average single-family value shown &mdash; this sets the property-tax portion.</span>
+        <span>City-average single-family value shown &mdash; replace it with your own.</span>
         <button id="reset">Reset to average</button>
       </div>
     </div>
 
-    <!-- headline = combined local taxes -->
+    <!-- headline = residential property tax -->
     <div class="headline">
-      <div class="h-label">Your estimated annual local taxes</div>
-      <div class="h-fig" id="bill">$4,683</div>
+      <div class="h-label">Your estimated annual residential property tax</div>
+      <div class="h-fig" id="bill">$4,448</div>
     </div>
+    <div class="h-sub">Your assessed value &times; $11.31 per $1,000 &mdash; the FY2025 residential tax rate</div>
 
-    <!-- composition: the two taxes that make up the total -->
+    <!-- who else carries the property tax -->
     <div class="composition">
-      <div class="comp-row">
-        <div>
-          <span class="comp-name">Property tax</span>
-          <span class="comp-sub">Your assessed value &times; $11.31 per $1,000 &mdash; the FY2025 residential tax rate</span>
-        </div>
-        <span class="comp-fig" id="compProp">$4,448</span>
-      </div>
-      <div class="comp-row">
-        <div>
-          <span class="comp-name">Motor vehicle excise</span>
-          <span class="comp-sub">FY2025 citywide household average</span>
-        </div>
-        <span class="comp-fig" id="compExcise">$235</span>
-      </div>
       <p class="comp-note">
         Homeowners aren&rsquo;t the only property taxpayers. Commercial, industrial, and personal
         property carry about <strong>28%</strong> of the City&rsquo;s tax levy, taxed at $22.85 per
@@ -292,7 +291,7 @@
     <section class="section">
       <div class="section-label">
         <span class="num">2</span>
-        <h2>What your local tax dollars funded</h2>
+        <h2>What your property tax funded</h2>
       </div>
       <div class="ledger" id="ledger"></div>
       <p class="ledger-note">
@@ -333,9 +332,9 @@
         <a href="https://www.doe.mass.edu/charter/finance/tuition/" target="_blank" rel="noopener">Massachusetts DESE FY2025 charter tuition reconciliation</a>;
         the City&rsquo;s
         <a href="https://newbedford-ma.s3.amazonaws.com/wp-content/uploads/sites/55/20241101093101/FY-2025-Adopted-Budget_City-of-NB.pdf" target="_blank" rel="noopener">FY2025 Adopted Budget</a>;
-        the FY2025 Tax Rate Recapitulation; and the
-        <a href="https://www.census.gov/quickfacts/newbedfordcitymassachusetts" target="_blank" rel="noopener">U.S. Census Bureau</a>
-        (2020&ndash;2024 American Community Survey). All financial figures are audited or reconciled actuals.
+        and the FY2025 Tax Rate Recapitulation. Financial figures are audited or reconciled FY2025
+        actuals. The average single-family assessed value of $393,323 is the figure reported by the
+        Massachusetts Department of Revenue for FY2025.
       </p>
       <p class="source">
         The methodology, the source data, and this receipt&rsquo;s code are openly available in the
@@ -356,19 +355,17 @@
    Benefit appropriations: FY2025 Adopted Budget. OPEB / pension:
    ACFR notes.
 
-   The ledger spreads a household's combined local taxes across
-   the ACFR's governmental functions in proportion to each
-   function's NET LOCAL COST (gross expense less program revenue
-   and restricted aid). Charter tuition is split out of Education,
+   The ledger spreads a household's property tax across the
+   ACFR's governmental functions in proportion to each function's
+   NET LOCAL COST (gross expense less program revenue and
+   restricted aid). Charter tuition is split out of Education,
    with the state's charter reimbursement attributed to it as an
    offset rather than left in unrestricted aid.
 
-   ALL INPUTS ARE NOW SOURCED. The motor vehicle excise figure is
-   a citywide average — total excise divided by Census households
-   — so it spreads business and boat excise across households; it
-   is labeled as a citywide average rather than a precise per-auto
-   figure. RESID_SHARE, the residential share of the levy, is
-   verified from the ACFR assessed-value-by-class table (p.144).
+   ALL INPUTS ARE SOURCED. RESID_SHARE, the residential share of
+   the property tax levy, is derived from the ACFR assessed-value-
+   by-class table (p.144) and the FY2025 class tax rates; the
+   methodology guide and workbook show the full derivation.
    ============================================================ */
 const D = {
   gross:        729655324,   /* ACFR p.24 — total governmental expenses                 */
@@ -378,9 +375,6 @@ const D = {
   avgValue:     393323,      /* FY2025 average single-family assessed value             */
   avgBill:      4448.48      /* property tax on the average value at $11.31 / $1,000    */
 };
-const EXCISE_CITY = 9837910;                 /* ACFR p.24 — motor vehicle & other excise */
-const HOUSEHOLDS  = 42271;                   /* New Bedford households — U.S. Census Bureau, 2020-2024 ACS 5-yr */
-const EXCISE_AVG  = EXCISE_CITY / HOUSEHOLDS; /* citywide motor vehicle & boat excise per household (~$233)      */
 const RATE        = D.avgBill / D.avgValue;   /* effective residential rate, $11.31/$1k   */
 
 /* property tax split — RESID_SHARE verified from the FY2025 ACFR
@@ -419,7 +413,8 @@ const FUNCS = [
 
 /* ---------------- helpers ---------------- */
 const $    = id => document.getElementById(id);
-const usd  = n => '$' + Math.round(n).toLocaleString('en-US');
+const grp  = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',');  /* thousands separators, engine-independent */
+const usd  = n => '$' + grp(Math.round(n));
 const usdM = n => '$' + (n/1e6).toFixed(1) + 'M';
 const pct  = n => Math.round(n*100) + '%';
 const pct1 = n => (n*100).toFixed(1) + '%';
@@ -441,10 +436,10 @@ function renderFunding(){
   const otherPer = (D.fundingTotal - resid) / resid;  /* outside money per $1 of it */
   $('fundingCaption').innerHTML =
     'New Bedford took in about <strong>'+usdM(D.fundingTotal)+'</strong> in FY2025 and spent '+
-    '<strong>'+usdM(D.gross)+'</strong> &mdash; a small operating surplus. Residential property '+
-    'tax supplied <strong>'+usdM(resid)+'</strong> of revenue. For every residential tax dollar, '+
-    '<span class="lev">another $'+otherPer.toFixed(2)+'</span> came from other sources &mdash; '+
-    'commercial property, fees, state aid, and federal grants among them:';
+    '<strong>'+usdM(D.gross)+'</strong> &mdash; a small operating surplus. Of that revenue, '+
+    'residential property tax supplied <strong>'+usdM(resid)+'</strong> citywide. For every '+
+    'dollar of it, <span class="lev">another $'+otherPer.toFixed(2)+'</span> came from other '+
+    'sources &mdash; commercial property, fees, state aid, and federal grants among them:';
 
   const bk = $('fundingBreakout'); bk.innerHTML = '';
   SEGS.forEach(s=>{
@@ -498,7 +493,7 @@ function renderReceipt(total){
   });
 
   const tot = document.createElement('div'); tot.className = 'ledger-total';
-  tot.innerHTML = '<span class="lt-fn">Your total local taxes</span>'+
+  tot.innerHTML = '<span class="lt-fn">Your property tax</span>'+
     '<span class="lt-amt">'+usd(total)+'</span>';
   led.appendChild(tot);
 }
@@ -507,22 +502,19 @@ function renderReceipt(total){
 function render(){
   const value   = Math.min(Number(String($('value').value).replace(/[^0-9.]/g,'')) || 0, 9000000);
   const propTax = value * RATE;
-  const total   = propTax + EXCISE_AVG;
-  animateNumber($('bill'), total);
-  $('compProp').textContent   = usd(propTax);
-  $('compExcise').textContent = usd(EXCISE_AVG);
+  animateNumber($('bill'), propTax);
   renderFunding();
-  renderReceipt(total);
+  renderReceipt(propTax);
 }
 
 /* ---------------- wiring ---------------- */
 $('value').addEventListener('input', render);
 $('value').addEventListener('blur', e=>{
   const n = Number(String(e.target.value).replace(/[^0-9.]/g,'')) || 0;
-  e.target.value = n ? n.toLocaleString('en-US') : '';
+  e.target.value = n ? grp(n) : '';
 });
 $('reset').addEventListener('click', ()=>{
-  $('value').value = D.avgValue.toLocaleString('en-US'); render();
+  $('value').value = grp(D.avgValue); render();
 });
 
 /* ---------------- init ---------------- */
