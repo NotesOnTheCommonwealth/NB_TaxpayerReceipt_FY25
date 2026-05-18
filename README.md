@@ -19,7 +19,7 @@ that does not come from local taxpayers is removed — and it is addressed to a
 
 ## Using the receipt
 
-Open `taxpayer-receipt.html` in a web browser. No internet connection, server,
+Open `index.html` in a web browser. No internet connection, server,
 or installation is needed — everything runs locally in the page. Type a single-
 family home's assessed value into the input field; the default is the FY2025
 average single-family value of $393,323.
