@@ -13,7 +13,7 @@ that does not come from local taxpayers is removed — and it is addressed to a
 
 | File | Description |
 |---|---|
-| `taxpayer-receipt.html` | The interactive receipt. A single self-contained file — open it in any browser. Enter a home's assessed value and the receipt recalculates. |
+| `index.html` | The interactive receipt. A single self-contained file — open it in any browser. Enter a home's assessed value and the receipt recalculates. |
 | `methodology.md` | How the receipt is built and where every figure comes from. |
 | `new-bedford-fy2025-receipt-data.xlsx` | The underlying database and an auditable spreadsheet version of the receipt, with every calculation as a visible formula. |
 
